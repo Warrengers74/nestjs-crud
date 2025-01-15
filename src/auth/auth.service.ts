@@ -6,15 +6,15 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as speakeasy from 'speakeasy';
-import { SignupDto } from './dto/signupDto';
+import { SignupDto } from './dto/signup.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { MailerService } from 'src/mailer/mailer.service';
-import { SigninDto } from './dto/signinDto';
+import { SigninDto } from './dto/signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { ResetPasswordDemandDto } from './dto/resetPasswordDemandDto';
-import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmationDto';
-import { DeleteAccountDto } from './dto/deleteAccountDto';
+import { ResetPasswordDemandDto } from './dto/resetPasswordDemand.dto';
+import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmation.dto';
+import { DeleteAccountDto } from './dto/deleteAccount.dto';
 
 @Injectable()
 export class AuthService {
