@@ -1,11 +1,19 @@
-import { Body, Controller, Delete, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { SignupDto } from './dto/signup.dto';
 import { AuthService } from './auth.service';
 import { SigninDto } from './dto/signin.dto';
 import { ResetPasswordDemandDto } from './dto/resetPasswordDemand.dto';
 import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmation.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { DeleteAccountDto } from './dto/deleteAccount.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -20,8 +28,11 @@ export class AuthController {
   }
 
   @Post('signin')
-  signin(@Body() signinDto: SigninDto) {
-    return this.authService.signin(signinDto);
+  signin(
+    @Body() signinDto: SigninDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.signin(signinDto, res);
   }
 
   @Post('reset-password')

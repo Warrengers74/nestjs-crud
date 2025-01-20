@@ -15,6 +15,7 @@ import { ConfigService } from '@nestjs/config';
 import { ResetPasswordDemandDto } from './dto/resetPasswordDemand.dto';
 import { ResetPasswordConfirmationDto } from './dto/resetPasswordConfirmation.dto';
 import { DeleteAccountDto } from './dto/deleteAccount.dto';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -46,7 +47,7 @@ export class AuthService {
     return { data: 'User created successfully' };
   }
 
-  async signin(signinDto: SigninDto) {
+  async signin(signinDto: SigninDto, res: Response) {
     const { email, password } = signinDto;
     // Véfirier si l'utilisateur existe
     const user = await this.prismaService.user.findUnique({ where: { email } });
@@ -61,8 +62,13 @@ export class AuthService {
       expiresIn: '1h',
       secret: this.configService.get<string>('SECRET_KEY'),
     });
+    // Envoie dans les cookies
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+    });
     return {
-      token,
       user: {
         username: user.username,
         email: user.email,
